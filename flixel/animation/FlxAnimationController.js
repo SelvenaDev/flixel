@@ -60,6 +60,26 @@ export class FlxAnimationController {
   update(elapsed) {
     if (this._curAnim != null) {
       _curAnim.update(elapsed * (timeScale * FlxG.animationTimeScale));
+    } else if (this._protated != null) {
+      this._protated.angle = this._sprite.angle;
     }
+  }
+  copyFrom(controller) {
+    this.destroyAnimations();
+    for (anim in controller._animations) {
+      add(anim.name, anim.frames, anim.frameRate, anim.looped, anim.flipX, anim.flipY);
+    }
+    if (controller._prerotated != null) {
+      this.createPreroated();
+    }
+    if (controller.name != null) {
+      this.#name = controller.name;
+    }
+    this.#frameIndex = controller.frameIndex;
+    return this;
+  }
+  createPreroated(Controller = null) {
+    this.destroyAnimations();
+    Controller = 
   }
 }
