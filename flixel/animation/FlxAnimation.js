@@ -1,5 +1,3 @@
-import ../FlxG/FlxG.js;
-
 export class FlxAnimation {
   frames = [];
   #frameRate = 0.0;
