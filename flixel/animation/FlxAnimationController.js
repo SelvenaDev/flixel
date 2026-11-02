@@ -1,4 +1,8 @@
 import FlxG from "../../FlxG.js";
+import FlxSprite from "../../FlxSprite.js";
+import FlxFrame from "../../graphics/frames/FlxFrame.js";
+import FlxDestroyUtil from "../../util/FlxDestroyUtil.js";
+import FlxSignal from "../../util/FlxSignal.js";
 
 export class FlxAnimationController {
   #curAnim;
@@ -61,7 +65,7 @@ export class FlxAnimationController {
     if (this._curAnim != null) {
       _curAnim.update(elapsed * (timeScale * FlxG.animationTimeScale));
     } else if (this._protated != null) {
-      this._protated.angle = this._sprite.angle;
+      this._prerotated.angle = this._sprite.angle;
     }
   }
   copyFrom(controller) {
@@ -70,7 +74,7 @@ export class FlxAnimationController {
       add(anim.name, anim.frames, anim.frameRate, anim.looped, anim.flipX, anim.flipY);
     }
     if (controller._prerotated != null) {
-      this.createPreroated();
+      this.createPreroatated();
     }
     if (controller.name != null) {
       this.#name = controller.name;
@@ -80,6 +84,45 @@ export class FlxAnimationController {
   }
   createPreroated(Controller = null) {
     this.destroyAnimations();
-    Controller = 
+    Controller = (Controller != null)  ? Controller : this;
+    this._prerotated = new FlxPrerotatedAnimation(Controller, Controller._sprite.bakedRotationAngle);
+    this._prerotated.angle = this._sprite.angle;
   }
+  destroyAnimations() {
+    this.clearAnimations();
+    this.clearPrerotated();
+  }
+  destroy() {
+    FlxDestroyUtil.destroy(onFrameChange);
+    FlxDestroyUtil.destroy(onFinish);
+    FlxDestroyUtil.destroy(onLoop);
+    this.destroyAnimation();
+    this._animations = null;
+    this.callback = null;
+    this.finishCallback = null;
+    this._sprite = null;
+  }
+  getFrameDuration(index) {
+    return this._sprite.frames.frames[index].duration;
+  }
+  clearPrerotated() {
+    if (this._animations != null) {
+      anim = null;
+      for (const key in this._animations.keys()) {
+        this.anim = this._animations.get(key);
+        if (this.anim != null) {
+          this.anim.destroy();
+        }
+      }
+    }
+    this._animation = new Map();
+    this._curAnim = null;
+  }
+  add(name, frames, frameRate, looped, flipX, flipY) {
+    if (numFrames == 0) {
+      console.warn(`Could not create animation: ${name}, this sprite has no frames`);
+    }
+    return;
+  }
+  framesToAdd = this.frames;
 }
