@@ -1,9 +1,17 @@
+import FlxG from "../../FlxG.js";
+
 export class FlxAnimationController {
   #curAnim;
   #frameIndex;
   #frameName;
+  #name;
+  #finished;
+  #numFrames;
+  #timeScale = 1.0
+  static callback = null
+  static finishCallback = null;
   get curAnim() {
-    return this.#curAnim:
+    return this.#curAnim;
   }
   set curAnim(value) {
     this.#curAnim = value;
@@ -18,6 +26,40 @@ export class FlxAnimationController {
     return this.#frameName;
   }
   set frameName(value) {
-    
+    this.#frameName = value;
+  }
+  get name() {
+    return this.#name;
+  }
+  set name(value) {
+    this.#name = value;
+  }
+  get finished() {
+    return this.#finished;
+  }
+  // neverと同じ
+  get numFrames() {
+    return this.numFrames;
+  }
+  ClassName.callback = (animName, frameNumber, frameIndex) => {
+    print(animName, frameNumber, frameIndex);
+  }
+  ClassName.finishCallback = (animName) => {
+    print(animName);
+  }
+  onFrameChange = new FlxTypedSignal();
+  onFinish = new FlxTypedSignal();
+  onLoop = new FlxTypeSignal();
+  _sprite;
+  _curAnim;
+  _animations = new Map();
+  _prerotated;
+  new(sprite) {
+    this._sprite = sprite;
+  }
+  update(elapsed) {
+    if (this._curAnim != null) {
+      _curAnim.update(elapsed * (timeScale * FlxG.animationTimeScale));
+    }
   }
 }
