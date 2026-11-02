@@ -3,5 +3,7 @@ export class FlxAnimationController {
   get curAnim() {
     return this.#curAnim:
   }
-  set curAnim()
+  set curAnim(value) {
+    this curAnim 
+  }
 }
