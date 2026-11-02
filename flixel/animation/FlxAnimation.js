@@ -62,8 +62,7 @@ export class FlxAnimation {
 
     #maxFrameIndex = numFrames - 1;
     if (Frame < 0) {
-      this.#curFrame = 
-      // this is need FlxG, but FlxG is need so many Modules(lol);
+      this.#curFrame = Math.floor(Math.random() * (this.maxFrameIndex - 0 + 1)) + 0;
     } else {
       if (this.frame > this.#maxFrameIndex) {
         this.frame = this.#maxFrameIndex;
