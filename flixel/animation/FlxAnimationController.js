@@ -121,8 +121,13 @@ export class FlxAnimationController {
   add(name, frames, frameRate, looped, flipX, flipY) {
     if (numFrames == 0) {
       console.warn(`Could not create animation: ${name}, this sprite has no frames`);
+      return;
     }
-    return;
+    framesToAdd = this.frames;
+    hasInvalidFrames = false;
+    i = frameToAdd.length;
+    while (i-- > 0) {
+      
+    }
   }
-  framesToAdd = this.frames;
 }
